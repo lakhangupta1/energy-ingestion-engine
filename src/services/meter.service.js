@@ -1,21 +1,20 @@
 const pool = require('../config/db');
 
 async function processMeter(data) {
-  const client = await pool.connect();
-
+  // Use pool.query directly to avoid checking out/releasing a client each call.
+  // We run the two statements sequentially; if you need strict atomicity,
+  // keep the transaction-based approach (uses client.connect()).
   try {
-    await client.query('BEGIN');
-
-    // 1️⃣ Insert into history (append-only)
-    await client.query(
+    // 1) Insert into history (append-only)
+    await pool.query(
       `INSERT INTO meter_readings_history
        (meter_id, kwh_consumed_ac, voltage, timestamp)
        VALUES ($1, $2, $3, $4)`,
       [data.meterId, data.kwhConsumedAc, data.voltage, data.timestamp]
     );
 
-    // 2️⃣ Upsert live table
-    await client.query(
+    // 2) Upsert live table
+    await pool.query(
       `INSERT INTO meter_live_status
        (meter_id, kwh_consumed_ac, voltage, timestamp)
        VALUES ($1, $2, $3, $4)
@@ -27,14 +26,9 @@ async function processMeter(data) {
       [data.meterId, data.kwhConsumedAc, data.voltage, data.timestamp]
     );
 
-    await client.query('COMMIT');
     return { success: true };
-
   } catch (err) {
-    await client.query('ROLLBACK');
     throw err;
-  } finally {
-    client.release();
   }
 }
 
