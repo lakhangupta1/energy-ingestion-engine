@@ -1,3 +1,32 @@
+# version: '3.8'
+
+# services:
+#   db:
+#     image: postgres:15
+#     environment:
+#       POSTGRES_DB: energy
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#     ports:
+#       - "5432:5432"
+#     # volumes:
+#     #   - ./init:/docker-entrypoint-initdb.d
+#     volumes:
+#     - ./init:/docker-entrypoint-initdb.d
+
+
+#   app:
+#     build: .
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - db
+#     environment:
+#       DB_HOST: db
+#       DB_USER: postgres
+#       DB_PASSWORD: postgres
+#       DB_NAME: energy
+
 version: '3.8'
 
 services:
@@ -10,7 +39,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./init:/docker-entrypoint-initdb.d
+      - type: bind
+        source: ./init
+        target: /docker-entrypoint-initdb.d
 
   app:
     build: .
@@ -23,4 +54,3 @@ services:
       DB_USER: postgres
       DB_PASSWORD: postgres
       DB_NAME: energy
-
