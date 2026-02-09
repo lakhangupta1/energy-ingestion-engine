@@ -64,7 +64,13 @@ async function runTest() {
 
     console.timeEnd('Total Test Time');
   } catch (err) {
-    console.error('Test failed:', err.message);
+    console.error('Test failed:');
+    if (err.response) {
+      console.error('Status:', err.response.status);
+      console.error('Body:', JSON.stringify(err.response.data, null, 2));
+    } else {
+      console.error(err.stack || err.message);
+    }
   }
 }
 

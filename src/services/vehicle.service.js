@@ -1,6 +1,7 @@
 const pool = require('../config/db');
 
 async function processVehicle(data) {
+    
   // Use pool.query directly to reduce client checkout overhead.
   // If you require atomic multi-statement transactions, revert to using a
   // dedicated client via pool.connect() and BEGIN/COMMIT.
