@@ -1,12 +1,13 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+// here can use .env variables for better security and flexibility
 const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'postgres',
-  database: process.env.DB_NAME || 'energy',
-  port: 5432,
+  host: '127.0.0.1',
+  port: 5433,   //number, not string
+  user: 'postgres',
+  password: 'postgres',
+  database: 'energy'
 });
 
 module.exports = pool;

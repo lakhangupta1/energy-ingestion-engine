@@ -48,30 +48,3 @@ docker-data/
 postgres-data/
 pgdata/
 
-############################
-# Database Dumps
-############################
-*.sql
-*.dump
-*.bak
-
-############################
-# IDE / Editors
-############################
-.vscode/
-.idea/
-*.swp
-*.swo
-
-############################
-# OS Files
-############################
-.DS_Store
-Thumbs.db
-
-############################
-# Testing
-############################
-.nyc_output/
-reports/
-junit.xml

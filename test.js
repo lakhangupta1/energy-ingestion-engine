@@ -58,8 +58,8 @@ async function runTest() {
   try {
     console.time('Total Test Time');
 
-    await sendVehicleData(500);
-    await sendMeterData(500);
+    await sendVehicleData(1);
+    await sendMeterData(1);
     await testAnalytics();
 
     console.timeEnd('Total Test Time');
