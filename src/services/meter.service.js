@@ -1,6 +1,7 @@
 const pool = require('../config/db');
 
 async function processMeter(data) {
+    await pool.connect(); // Ensure pool is initialized; optional if pool.query() is used directly.
   // Use pool.query directly to avoid checking out/releasing a client each call.
   // We run the two statements sequentially; if you need strict atomicity,
   // keep the transaction-based approach (uses client.connect()).
